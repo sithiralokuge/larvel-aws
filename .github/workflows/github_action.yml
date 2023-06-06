@@ -1,0 +1,41 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Install rsync
+        run: sudo apt update && sudo apt install rsync -y
+
+      - name: Deploy to EC2
+        run: |
+          rsync -e "ssh -o StrictHostKeyChecking=no" -r --delete-after --quiet \
+            C:\Users\sanji\OneDrive\Documents\GitHub\larawel-aws ubuntu@ec2-54-167-121-32.compute-1.amazonaws.com:/var/www/html
+
+      - name: Set up environment variables
+        run: |
+          echo "DB_HOST=rds-database.cnipwl3qhgwc.us-east-1.rds.amazonaws.com" >> $GITHUB_ENV
+          echo "DB_DATABASE=rds-database" >> $GITHUB_ENV
+          echo "DB_USERNAME=admin" >> $GITHUB_ENV
+          echo "DB_PASSWORD=admin123456" >> $GITHUB_ENV
+
+      - name: Deploy database migrations
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-167-121-32.compute-1.amazonaws.com 'cd /path/to/destination && php artisan migrate --force'
+
+
+      run: vendor/bin/phpunit
