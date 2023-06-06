@@ -36,5 +36,8 @@ jobs:
       - name: Deploy database migrations
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-167-121-32.compute-1.amazonaws.com 'cd /var/www/html && php artisan migrate --force'
+      
+      - name: Notify Slack
+        uses: C:\Users\sanji\OneDrive\Documents\GitHub\larawel-aws\.github\workflows\slack.yml
 
       run: vendor/bin/phpunit
