@@ -21,7 +21,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           curl -X POST -H 'Content-type: application/json' --data '{
-            "text": "Deployment completed successfully!",
+            "text": "Workflow Push to laravel-aws job deploy triggered by push SUCCESS",
             "attachments": [
               {
                 "color": "#36a64f",
@@ -52,7 +52,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           curl -X POST -H 'Content-type: application/json' --data '{
-            "text": "Deployment failed!",
+            "text": "Workflow Push to laravel-aws job deploy triggered by push FAILURE",
             "attachments": [
               {
                 "color": "#ff0000",

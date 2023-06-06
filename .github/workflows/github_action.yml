@@ -35,7 +35,6 @@ jobs:
 
       - name: Deploy database migrations
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-167-121-32.compute-1.amazonaws.com 'cd /path/to/destination && php artisan migrate --force'
-
+          ssh -o StrictHostKeyChecking=no ubuntu@ec2-54-167-121-32.compute-1.amazonaws.com 'cd /var/www/html && php artisan migrate --force'
 
       run: vendor/bin/phpunit
